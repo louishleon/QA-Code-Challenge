@@ -1,6 +1,6 @@
 # QA-Code-Challenge
 
-UI Test Suite via Selenium IDE
+UI Test Suite file is attached using Selenium IDE
 
 
 API Test Collection via postman
