@@ -13,29 +13,7 @@
 					"script": {
 						"id": "2b12e462-5dda-4c0c-a0e7-a8bdc7000f7f",
 						"exec": [
-							"//Testing Headers\r",
-							"pm.test(\"Content-Type header is present\", () => {\r",
-							"  pm.response.to.have.header(\"Content-Type\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Content-Type header is application/json\", () => {\r",
-							"  pm.expect(pm.response.headers.get('title')).to.eql('Chuck Norris Jokes Api/json');\r",
-							"});\r",
-							"\r",
-							"pm.test('Page title should be set', function () {\r",
-							"    pm.expect($('title').text()).to.equal('Chuck Norris Jokes Api'); \r",
-							"});\r",
-							"\r",
-							"pm.test('Page should have header and footer tags', function () {\r",
-							"    pm.expect($('header')).to.exist;\r",
-							"    pm.expect($('footer')).to.exist;\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Content-Type is present\", function () {\r",
-							"    pm.response.to.have.header.eql\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Correct title is returned\", function () {\r",
+							"pm.test(\"Body matches string value to include title\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"Chuck Norris Jokes Api\");\r",
 							"});"
 						],
@@ -70,27 +48,27 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Body matches string\", function () {\r",
+							"pm.test(\"Body matches string values\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"animal\",\"career\",\"celebrity\",\"dev\",\"explicit\",\"fashion\",\"food\",\"history\",\"money\",\"movie\",\"music\",\"political\",\"religion\",\"science\",\"sport\",\"travel\");\r",
 							"});\r",
 							"\r",
 							"\r",
-							"pm.test(\"Array contains 16 items\", function () {\r",
-							"    pm.expect(Object.keys(pm.response.json()).length).to.eql(16);\r",
-							"});\r",
-							"\r",
 							"//Asserting array properties using jsonData\r",
 							"var jsonData = pm.response.json();\r",
 							"\r",
-							"pm.test(\"Array contains Food\", () => {\r",
+							"pm.test(\"Total list of category items is: \" + jsonData.length, function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Array contains food\", function () {\r",
 							"  pm.expect(jsonData.include(\"food\"));\r",
 							"});\r",
 							"\r",
-							"pm.test(\"1st Category is Animal\", function () {\r",
+							"pm.test(\"1st Category is animal\", function () {\r",
 							"    pm.expect(jsonData[0]).to.eql(\"animal\"); //values in an array begin with zero\r",
 							"});\r",
 							"\r",
-							"pm.test(\"2nd Category is Carrer\", function () {\r",
+							"pm.test(\"2nd Category is carrer\", function () {\r",
 							"    pm.expect(jsonData[1]).to.eql(\"career\");\r",
 							"});"
 						],
@@ -132,21 +110,47 @@
 							"    pm.expect(pm.response.text()).to.include(\"food\");\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Category is Food\", () => {\r",
-							"  const responseJson = pm.response.json();\r",
-							"  pm.expect(responseJson.categories).to.eql(\"food\");\r",
-							"  pm.expect(responseJson.total).to.eql(23);\r",
+							"var jsonData = pm.response.json(); //It takes the body of the response and parses it into json format and assigns it to variable jsonData\r",
+							"pm.environment.set(\"firstJokeId\", jsonData.result[0].id); //Capture the first ID from response and uses javascript to set it to variable firstJokeId\r",
+							"pm.environment.set(\"lastJokeId\", jsonData.result[22].id); //Capture the last ID from response and uses javascript to set it to variable lastJokeId\r",
+							"\r",
+							"pm.test(\"Total jokes for category is: \" + jsonData.result.length, function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Total jokes in result array for food category is correct!!!\", function () {\r",
+							"    pm.expect(jsonData.result.length).to.eql(23);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"First Food Joke\", function () {\r",
+							"    pm.expect(jsonData.result[0].id).to.eql(environment.firstJokeId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Last Food Joke\", function () {\r",
+							"    pm.expect(jsonData.result[22].id).to.eql(environment.lastJokeId);\r",
 							"});"
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "https://api.chucknorris.io/jokes/search?query=food",
+					"raw": "https://api.chucknorris.io/jokes/search?query={{category}}",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -160,7 +164,7 @@
 					"query": [
 						{
 							"key": "query",
-							"value": "food"
+							"value": "{{category}}"
 						}
 					]
 				}
