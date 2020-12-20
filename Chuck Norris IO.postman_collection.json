@@ -74,25 +74,25 @@
 							"    pm.expect(pm.response.text()).to.include(\"animal\",\"career\",\"celebrity\",\"dev\",\"explicit\",\"fashion\",\"food\",\"history\",\"money\",\"movie\",\"music\",\"political\",\"religion\",\"science\",\"sport\",\"travel\");\r",
 							"});\r",
 							"\r",
-							"//Asserting array properties\r",
-							"const jsonData = pm.response.json();\r",
-							"pm.test(\"Test array properties\", () => {\r",
-							"    //Categories include \"food\"\r",
-							"  pm.expect(jsonData.include(\"food\"));\r",
-							"});\r",
 							"\r",
-							"pm.test(\"Test n-amount of items in Category list\", function () {\r",
+							"pm.test(\"Array contains 16 items\", function () {\r",
 							"    pm.expect(Object.keys(pm.response.json()).length).to.eql(16);\r",
 							"});\r",
 							"\r",
-							"//Parsing the Response body to a variable\r",
-							"    responseJson = JSON.parse(responseBody);\r",
+							"//Asserting array properties using jsonData\r",
+							"var jsonData = pm.response.json();\r",
 							"\r",
-							"//Finding the length of the Response Array\r",
-							"    var list = responseJson.length;\r",
-							"    console.log(list);\r",
-							"    tests[\"Validate service retuns 16 records\"] = list === 16;\r",
-							""
+							"pm.test(\"Array contains Food\", () => {\r",
+							"  pm.expect(jsonData.include(\"food\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"1st Category is Animal\", function () {\r",
+							"    pm.expect(jsonData[0]).to.eql(\"animal\"); //values in an array begin with zero\r",
+							"});\r",
+							"\r",
+							"pm.test(\"2nd Category is Carrer\", function () {\r",
+							"    pm.expect(jsonData[1]).to.eql(\"career\");\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -214,6 +214,31 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9334c140-7c5d-4ad1-bf1c-043c53d8ef0b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "873283e6-612e-4fe1-b5d0-d6fb89814f77",
+				"type": "text/javascript",
+				"exec": [
+					"//These assertions at the collection level get added to all requests within it",
+					"pm.test(\"Response time is less than 3000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+					"});"
+				]
+			}
 		}
 	],
 	"protocolProfileBehavior": {}
