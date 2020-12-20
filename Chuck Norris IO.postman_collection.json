@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "44496954-80e3-4e86-a744-50f70107ee12",
+		"name": "Chuck Norris IO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Chuck Norris IO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b12e462-5dda-4c0c-a0e7-a8bdc7000f7f",
+						"exec": [
+							"//Testing Headers\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"  pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", () => {\r",
+							"  pm.expect(pm.response.headers.get('title')).to.eql('Chuck Norris Jokes Api/json');\r",
+							"});\r",
+							"\r",
+							"pm.test('Page title should be set', function () {\r",
+							"    pm.expect($('title').text()).to.equal('Chuck Norris Jokes Api'); \r",
+							"});\r",
+							"\r",
+							"pm.test('Page should have header and footer tags', function () {\r",
+							"    pm.expect($('header')).to.exist;\r",
+							"    pm.expect($('footer')).to.exist;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header.eql\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Correct title is returned\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Chuck Norris Jokes Api\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.chucknorris.io",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CN Jokes Categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ddcab962-1a37-46a8-a5c6-e8b241f38b29",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"animal\",\"career\",\"celebrity\",\"dev\",\"explicit\",\"fashion\",\"food\",\"history\",\"money\",\"movie\",\"music\",\"political\",\"religion\",\"science\",\"sport\",\"travel\");\r",
+							"});\r",
+							"\r",
+							"//Asserting array properties\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Test array properties\", () => {\r",
+							"    //Categories include \"food\"\r",
+							"  pm.expect(jsonData.include(\"food\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test n-amount of items in Category list\", function () {\r",
+							"    pm.expect(Object.keys(pm.response.json()).length).to.eql(16);\r",
+							"});\r",
+							"\r",
+							"//Parsing the Response body to a variable\r",
+							"    responseJson = JSON.parse(responseBody);\r",
+							"\r",
+							"//Finding the length of the Response Array\r",
+							"    var list = responseJson.length;\r",
+							"    console.log(list);\r",
+							"    tests[\"Validate service retuns 16 records\"] = list === 16;\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.chucknorris.io/jokes/categories",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					],
+					"path": [
+						"jokes",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CN Jokes Search by Category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "12b3f0bc-16cd-495a-af38-f105bd0e6a8b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"food\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Category is Food\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.categories).to.eql(\"food\");\r",
+							"  pm.expect(responseJson.total).to.eql(23);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.chucknorris.io/jokes/search?query=food",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					],
+					"path": [
+						"jokes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "food"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CN Random Jokes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.chucknorris.io/jokes/random",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					],
+					"path": [
+						"jokes",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CN Random Jokes by Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.chucknorris.io/jokes/random?category=food",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					],
+					"path": [
+						"jokes",
+						"random"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "food"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
