@@ -1,9 +1,7 @@
 # QA-Code-Challenge
 
-UI Test Suite file is attached using Selenium IDE
+The UI Test Suite report file from Selenium IDE is attached
 
-
-API Test Collection via postman
-https://www.getpostman.com/collections/08b7b09cb8d03cd7a382
+The API Test Collection report file from Postman is attached
 
 
