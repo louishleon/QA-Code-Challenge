@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "44496954-80e3-4e86-a744-50f70107ee12",
+		"name": "Chuck Norris IO- QA Code Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Chuck Norris IO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b12e462-5dda-4c0c-a0e7-a8bdc7000f7f",
+						"exec": [
+							"pm.test(\"Body matches string value to include title\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Chuck Norris Jokes Api\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.chucknorris.io",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CN Jokes Categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ddcab962-1a37-46a8-a5c6-e8b241f38b29",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string values\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"animal\",\"career\",\"celebrity\",\"dev\",\"explicit\",\"fashion\",\"food\",\"history\",\"money\",\"movie\",\"music\",\"political\",\"religion\",\"science\",\"sport\",\"travel\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//Asserting array properties using jsonData\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Total list of category items is: \" + jsonData.length, function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Array contains food\", function () {\r",
+							"  pm.expect(jsonData.include(\"food\"));\r",
+							"});\r",
+							"\r",
+							"// The first value of array starts with zero\r",
+							"pm.test(\"1st Category is animal\", function () {\r",
+							"    pm.expect(jsonData[0]).to.eql(\"animal\"); //values in an array begin with zero\r",
+							"});\r",
+							"\r",
+							"pm.test(\"2nd Category is carrer\", function () {\r",
+							"    pm.expect(jsonData[1]).to.eql(\"career\");\r",
+							"});\r",
+							"\r",
+							"//Assertion to display the categories by looping through array\r",
+							"var count = 0;\r",
+							"for (var i = 0;i<jsonData.length;i++) {\r",
+							"    pm.test(\"Category #\" + (1+i) + \" is: \" + jsonData[i], function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"count++;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.chucknorris.io/jokes/categories",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					],
+					"path": [
+						"jokes",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CN Jokes Search by Category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "12b3f0bc-16cd-495a-af38-f105bd0e6a8b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string from global variable >>>\" + environment.category + \"<<<\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(environment.category);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json(); //It takes the body of the response and parses it into json format and assigns it to variable jsonData\r",
+							"pm.environment.set(\"firstJokeId\", jsonData.result[0].id); //Capture the first ID from response and sets it to variable firstJokeId\r",
+							"pm.environment.set(\"lastJokeId\", jsonData.result[22].id); //Capture the last ID from response and sets it to variable lastJokeId\r",
+							"\r",
+							"pm.test(\"Total jokes for >>>\" + environment.category + \"<<< category is: \" + jsonData.result.length, function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Total jokes in result array for food category is correct!!!\", function () {\r",
+							"    pm.expect(jsonData.result.length).to.eql(23);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"First Food Joke\", function () {\r",
+							"    pm.expect(jsonData.result[0].id).to.eql(environment.firstJokeId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Last Food Joke\", function () {\r",
+							"    pm.expect(jsonData.result[22].id).to.eql(environment.lastJokeId);\r",
+							"});\r",
+							"\r",
+							"//Assertion to display all jokes for specified category by looping through array\r",
+							"var count = 0;\r",
+							"for (var i = 0;i<jsonData.result.length;i++) {\r",
+							"    pm.test(\"Joke #\" + (1+i) + \" (ID: \" + jsonData.result[i].id + \") for >>>\" + environment.category + \"<<< category: \" + jsonData.result[i].value, function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"count++;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.chucknorris.io/jokes/search?query={{category}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chucknorris",
+						"io"
+					],
+					"path": [
+						"jokes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "{{category}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9334c140-7c5d-4ad1-bf1c-043c53d8ef0b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "873283e6-612e-4fe1-b5d0-d6fb89814f77",
+				"type": "text/javascript",
+				"exec": [
+					"//These assertions at the collection level get added to all requests within it",
+					"pm.test(\"Response time is less than 3000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
