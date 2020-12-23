@@ -1,7 +1,7 @@
 # QA-Code-Challenge
 
-The UI Test Suite report file from Selenium IDE is attached
+This repository includes the attached UI Test Suite report file from Selenium IDE for The Internet application.
 
-The API Test Collection report file from Postman is attached
+It also contains the API Test Collection report file from Postman for the Chuck Norris IO.
 
 
