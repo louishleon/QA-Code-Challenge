@@ -87,6 +87,39 @@
       "target": "id=flash",
       "targets": [],
       "value": "You logged out of the secure area!\\n×"
+    }, {
+      "id": "73367fbf-4878-4602-8b81-e7c9cc00ede6",
+      "comment": "",
+      "command": "storeTitle",
+      "target": "The Internet",
+      "targets": [],
+      "value": "varTitle"
+    }, {
+      "id": "b7f4f2c8-e1d8-42c2-adc9-bc3db9866945",
+      "comment": "",
+      "command": "echo",
+      "target": "${varTitle}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f8937bde-fff5-4a1a-9057-24b63e697afe",
+      "comment": "",
+      "command": "storeText",
+      "target": "css=h2",
+      "targets": [
+        ["css=h2", "css:finder"],
+        ["xpath=//div[@id='content']/div/h2", "xpath:idRelative"],
+        ["xpath=//h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Login Page')]", "xpath:innerText"]
+      ],
+      "value": "varPageName"
+    }, {
+      "id": "d618d958-2d23-4258-b7ee-a7e3df2e4508",
+      "comment": "",
+      "command": "echo",
+      "target": "${varPageName}",
+      "targets": [],
+      "value": ""
     }]
   }, {
     "id": "9141314d-75da-4745-ba9d-efaf8d45e24e",
@@ -248,17 +281,29 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "fb640808-3a2c-4720-b5bd-c855ac650c4f",
+      "id": "11589772-f834-4cf7-8ea6-df2adee63fa5",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=flash-messages",
+      "targets": [
+        ["id=flash-messages", "id"],
+        ["css=#flash-messages", "css:finder"],
+        ["xpath=//div[@id='flash-messages']", "xpath:attributes"],
+        ["xpath=//div[3]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9e354b50-3614-4a20-8775-7b7485268467",
       "comment": "",
       "command": "mouseOut",
-      "target": "",
+      "target": "id=flash-messages",
       "targets": [],
       "value": ""
     }, {
-      "id": "45dbaba5-fa4e-42eb-881f-dd1b3cb7998e",
+      "id": "d4a75e08-0cfb-4003-9400-fcf2e0662d42",
       "comment": "",
-      "command": "//click",
-      "target": "css=.modal-footer > p",
+      "command": "executeScript",
+      "target": "alert(\"This is a Test\")",
       "targets": [],
       "value": ""
     }]
@@ -280,24 +325,58 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "b85f820c-fb4f-4528-9373-8ac70f92e017",
+      "id": "4d294f88-126e-4c10-baff-b74797a8dbb8",
       "comment": "",
-      "command": "click",
-      "target": "linkText=Click Here",
-      "targets": [],
-      "value": "",
-      "opensWindow": true,
-      "windowHandleName": "win1906",
-      "windowTimeout": 2000
-    }, {
-      "id": "4b384163-c7f5-4c38-bf33-ebf1fd06d345",
-      "comment": "",
-      "command": "selectWindow",
-      "target": "handle=${win1906}",
+      "command": "verifyTitle",
+      "target": "The Internet",
       "targets": [],
       "value": ""
     }, {
-      "id": "b622a89b-c299-472e-af78-591c0da2f693",
+      "id": "5d9c9602-dae5-4ec3-b074-06ad8be14041",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=h3",
+      "targets": [
+        ["css=h3", "css:finder"],
+        ["xpath=//div[@id='content']/div/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'Opening a new window')]", "xpath:innerText"]
+      ],
+      "value": "Opening a new window"
+    }, {
+      "id": "843cc0b6-ad4e-4e34-883d-bd13aabcaeba",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Click Here",
+      "targets": [
+        ["linkText=Click Here", "linkText"],
+        ["css=a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Click Here')]", "xpath:link"],
+        ["xpath=//div[@id='content']/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/windows/new')]", "xpath:href"],
+        ["xpath=//div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Click Here')]", "xpath:innerText"]
+      ],
+      "value": "",
+      "opensWindow": true,
+      "windowHandleName": "newWindow",
+      "windowTimeout": 2000
+    }, {
+      "id": "59f221bd-01b6-460a-a543-fc6266450845",
+      "comment": "",
+      "command": "selectWindow",
+      "target": "handle=${newWindow}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "908e5f3d-0c7e-4a36-9537-a47fead92672",
+      "comment": "",
+      "command": "verifyTitle",
+      "target": "New Window",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ad051d40-356d-4c8b-9835-ffba3ea7f5a9",
       "comment": "",
       "command": "verifyText",
       "target": "css=h3",
